@@ -1,0 +1,233 @@
+{
+  "holdout": "June\u2013August 2017",
+  "holdout_rows": 15872,
+  "holdout_cancel_rate": 0.3928931451612903,
+  "always_keep_accuracy": 0.6071068548387097,
+  "deposit_threshold": 0.6,
+  "reminder_threshold": 0.3,
+  "runs": [
+    {
+      "name": "leaky-baseline",
+      "eligible": false,
+      "estimator": "lightgbm",
+      "country_encoding": "naive",
+      "data_version": "v2",
+      "status": "do-not-use",
+      "metrics": {
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "recall_high_risk": 1.0,
+        "precision_high_risk": 1.0,
+        "accuracy": 1.0
+      }
+    },
+    {
+      "name": "post-booking-columns",
+      "eligible": false,
+      "estimator": "lightgbm",
+      "country_encoding": "frequency",
+      "data_version": "v2",
+      "status": "do-not-use",
+      "metrics": {
+        "roc_auc": 0.8826368325322697,
+        "pr_auc": 0.8246247476547448,
+        "recall_high_risk": 0.5444194996792816,
+        "precision_high_risk": 0.811618455653837,
+        "accuracy": 0.7808719758064516
+      }
+    },
+    {
+      "name": "logistic_regression-frequency-v2",
+      "eligible": true,
+      "estimator": "logistic_regression",
+      "country_encoding": "frequency",
+      "data_version": "v2",
+      "status": "candidate",
+      "metrics": {
+        "roc_auc": 0.8430351151377757,
+        "pr_auc": 0.7824613868207644,
+        "recall_high_risk": 0.4672867222578576,
+        "precision_high_risk": 0.7929251700680272,
+        "accuracy": 0.7561743951612904
+      }
+    },
+    {
+      "name": "random_forest-frequency-v2",
+      "eligible": true,
+      "estimator": "random_forest",
+      "country_encoding": "frequency",
+      "data_version": "v2",
+      "status": "candidate",
+      "metrics": {
+        "roc_auc": 0.8645118822908854,
+        "pr_auc": 0.7987627314875115,
+        "recall_high_risk": 0.4459589480436177,
+        "precision_high_risk": 0.8086653096830474,
+        "accuracy": 0.7562373991935484
+      }
+    },
+    {
+      "name": "lightgbm-frequency-v2",
+      "eligible": true,
+      "estimator": "lightgbm",
+      "country_encoding": "frequency",
+      "data_version": "v2",
+      "status": "candidate",
+      "metrics": {
+        "roc_auc": 0.8747591450011994,
+        "pr_auc": 0.8131095608242703,
+        "recall_high_risk": 0.5323925593329057,
+        "precision_high_risk": 0.8025138989605994,
+        "accuracy": 0.7729334677419355
+      }
+    },
+    {
+      "name": "lightgbm-top20-v2",
+      "eligible": true,
+      "estimator": "lightgbm",
+      "country_encoding": "top20",
+      "data_version": "v2",
+      "status": "candidate",
+      "metrics": {
+        "roc_auc": 0.8750819935451594,
+        "pr_auc": 0.8130894600186055,
+        "recall_high_risk": 0.5306286080821039,
+        "precision_high_risk": 0.7996616723054616,
+        "accuracy": 0.7741935483870968
+      }
+    },
+    {
+      "name": "lightgbm-frequency-v1",
+      "eligible": false,
+      "estimator": "lightgbm",
+      "country_encoding": "frequency",
+      "data_version": "v1",
+      "status": "comparison",
+      "metrics": {
+        "roc_auc": 0.8618220130651812,
+        "pr_auc": 0.797358546847024,
+        "recall_high_risk": 0.5006414368184734,
+        "precision_high_risk": 0.7956167176350663,
+        "accuracy": 0.7680821572580645
+      }
+    }
+  ],
+  "leaky_importance": [
+    {
+      "feature": "reservation_status",
+      "share": 0.9999999999999999
+    },
+    {
+      "feature": "hotel",
+      "share": 1.5977225917180444e-16
+    },
+    {
+      "feature": "arrival_date_month",
+      "share": 1.0751461592816098e-17
+    },
+    {
+      "feature": "arrival_date_week_number",
+      "share": 3.5942429961046645e-18
+    },
+    {
+      "feature": "adults",
+      "share": 1.0383246129778461e-18
+    },
+    {
+      "feature": "arrival_date_year",
+      "share": 2.9626942860356183e-19
+    },
+    {
+      "feature": "lead_time",
+      "share": 1.949726306321998e-19
+    },
+    {
+      "feature": "stays_in_week_nights",
+      "share": 3.4566806537768e-20
+    }
+  ],
+  "champion_importance": [
+    {
+      "feature": "deposit_type",
+      "share": 0.34028900631042386
+    },
+    {
+      "feature": "lead_time",
+      "share": 0.0992172959203904
+    },
+    {
+      "feature": "agent_freq",
+      "share": 0.0901613281458655
+    },
+    {
+      "feature": "country_freq",
+      "share": 0.08912972724033165
+    },
+    {
+      "feature": "total_of_special_requests",
+      "share": 0.06400123719190633
+    },
+    {
+      "feature": "past_cancel_ratio",
+      "share": 0.054041248146433726
+    },
+    {
+      "feature": "market_segment",
+      "share": 0.05267763395730084
+    },
+    {
+      "feature": "required_car_parking_spaces",
+      "share": 0.04914396350498566
+    },
+    {
+      "feature": "customer_type",
+      "share": 0.033947985094456914
+    },
+    {
+      "feature": "adr",
+      "share": 0.02057402699129802
+    },
+    {
+      "feature": "arrival_week_cos",
+      "share": 0.012835055860900767
+    },
+    {
+      "feature": "distribution_channel",
+      "share": 0.011476156051137212
+    }
+  ],
+  "champion": {
+    "model_name": "hotel-cancellation",
+    "model_version": 1,
+    "alias": "champion",
+    "data_version": "v2",
+    "estimator": "lightgbm",
+    "country_encoding": "frequency",
+    "metrics": {
+      "roc_auc": 0.8747591450011994,
+      "pr_auc": 0.8131095608242703,
+      "recall_high_risk": 0.5323925593329057,
+      "precision_high_risk": 0.8025138989605994,
+      "accuracy": 0.7729334677419355
+    },
+    "risk_bands": {
+      "reminder_threshold": 0.3,
+      "deposit_threshold": 0.6
+    },
+    "run_id": "e7ba0cc4bbea45ba9c120e40e0f21323"
+  },
+  "v1_metrics": {
+    "roc_auc": 0.8618220130651812,
+    "pr_auc": 0.797358546847024,
+    "recall_high_risk": 0.5006414368184734,
+    "precision_high_risk": 0.7956167176350663,
+    "accuracy": 0.7680821572580645
+  },
+  "v2_metrics": {
+    "roc_auc": 0.8747591450011994,
+    "pr_auc": 0.8131095608242703,
+    "recall_high_risk": 0.5323925593329057,
+    "precision_high_risk": 0.8025138989605994,
+    "accuracy": 0.7729334677419355
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "rows": 119390,
+  "cancel_rate": 0.37041628277075134,
+  "majority_class_accuracy": 0.6295837172292487,
+  "company_missing_pct": 94.30689337465449,
+  "agent_missing_pct": 13.686238378423655,
+  "country_missing_pct": 0.40874445095904177,
+  "children_missing_pct": 0.003350364352123293,
+  "adr_max": 5400.0,
+  "adr_p99": 252.0,
+  "undefined_meals": 1169,
+  "assigned_differs_pct": 12.494346260155792,
+  "cancel_rate_when_booking_changed": 0.15672715202478424,
+  "cancel_rate_when_booking_unchanged": 0.40854176125708197,
+  "v1_rows": 78703,
+  "v2_rows": 103505,
+  "holdout_rows": 15885,
+  "holdout_cancel_rate": 0.39276046584828456,
+  "v2_cancel_rate": 0.3669871020723637
+}

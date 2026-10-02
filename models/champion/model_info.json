@@ -1,0 +1,20 @@
+{
+  "model_name": "hotel-cancellation",
+  "model_version": 2,
+  "alias": "champion",
+  "data_version": "v2",
+  "estimator": "lightgbm",
+  "country_encoding": "frequency",
+  "metrics": {
+    "roc_auc": 0.8747591450011994,
+    "pr_auc": 0.8131095608242703,
+    "recall_high_risk": 0.5323925593329057,
+    "precision_high_risk": 0.8025138989605994,
+    "accuracy": 0.7729334677419355
+  },
+  "risk_bands": {
+    "reminder_threshold": 0.3,
+    "deposit_threshold": 0.6
+  },
+  "run_id": "22a12edb555b4a79b074ae824356c544"
+}

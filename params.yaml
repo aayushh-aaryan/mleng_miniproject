@@ -1,0 +1,33 @@
+prepare:
+  # The published ADR outlier is 5400. Cap it; do not let one night set the scale.
+  adr_cap: 1000.0
+
+features:
+  # frequency or top20. Experiments pick the one with the better holdout PR-AUC.
+  country_encoding: frequency
+  country_top_n: 20
+
+risk:
+  # Under 0.3 confirm. Through 0.6 remind. Above 0.6, deposit or overbook.
+  reminder_threshold: 0.3
+  deposit_threshold: 0.6
+
+train:
+  model: lightgbm
+  data_version: v2
+  random_state: 42
+  # No class_weight. The risk bands are probabilities, so the fit is not rebalanced.
+  logistic_regression:
+    C: 1.0
+    max_iter: 500
+  random_forest:
+    n_estimators: 120
+    max_depth: 14
+    min_samples_leaf: 5
+  lightgbm:
+    n_estimators: 200
+    learning_rate: 0.05
+    num_leaves: 31
+    min_child_samples: 40
+    subsample: 0.8
+    colsample_bytree: 0.8

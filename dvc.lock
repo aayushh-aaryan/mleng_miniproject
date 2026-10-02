@@ -1,0 +1,171 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python -m src.prepare
+    deps:
+    - path: data/raw/bookings.csv
+      hash: md5
+      md5: 3953667fbdd820b12913d9c4c0d4aed5
+      size: 14700832
+    - path: src/paths.py
+      hash: md5
+      md5: 1057defbb097834cb9e1cc525e02e768
+      size: 930
+    - path: src/prepare.py
+      hash: md5
+      md5: 4b08bae806d613d1ee00a36d3ce19c07
+      size: 3100
+    - path: src/schema.py
+      hash: md5
+      md5: 4b96a58944f970143fe4d72c3f99c966
+      size: 1876
+    params:
+      params.yaml:
+        prepare:
+          adr_cap: 1000.0
+    outs:
+    - path: data/prepared/bookings.csv
+      hash: md5
+      md5: 949331e6a5939af0dd677c36361be79f
+      size: 11917373
+  featurize:
+    cmd: python -m src.features
+    deps:
+    - path: data/prepared/bookings.csv
+      hash: md5
+      md5: 949331e6a5939af0dd677c36361be79f
+      size: 11917373
+    - path: src/features.py
+      hash: md5
+      md5: 0b7823ec9350872d6ed2a6027b8ac65f
+      size: 13303
+    - path: src/prepare.py
+      hash: md5
+      md5: 4b08bae806d613d1ee00a36d3ce19c07
+      size: 3100
+    - path: src/schema.py
+      hash: md5
+      md5: 4b96a58944f970143fe4d72c3f99c966
+      size: 1876
+    params:
+      params.yaml:
+        features:
+          country_encoding: frequency
+          country_top_n: 20
+        prepare.adr_cap: 1000.0
+    outs:
+    - path: data/featured/bookings.csv
+      hash: md5
+      md5: 6df029321476e940091096d7a0fe28dc
+      size: 29097670
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/featured/bookings.csv
+      hash: md5
+      md5: 6df029321476e940091096d7a0fe28dc
+      size: 29097670
+    - path: data/prepared/bookings.csv
+      hash: md5
+      md5: 949331e6a5939af0dd677c36361be79f
+      size: 11917373
+    - path: data/raw/holdout_summer2017.csv
+      hash: md5
+      md5: 02e614307f8a0d8a913761afadacee4d
+      size: 2235811
+    - path: src/features.py
+      hash: md5
+      md5: 0b7823ec9350872d6ed2a6027b8ac65f
+      size: 13303
+    - path: src/leakage.py
+      hash: md5
+      md5: 255ce384e4feb707a01382a639266382
+      size: 3795
+    - path: src/metrics.py
+      hash: md5
+      md5: 32b8f4af5ee38a2be6113b25e4238afd
+      size: 980
+    - path: src/modeling.py
+      hash: md5
+      md5: b000a098341fbee063bb49d40821cb73
+      size: 13542
+    - path: src/prepare.py
+      hash: md5
+      md5: 4b08bae806d613d1ee00a36d3ce19c07
+      size: 3100
+    - path: src/train.py
+      hash: md5
+      md5: 7c1389ec9ef83b8dd48290d9b2ee680f
+      size: 1762
+    params:
+      params.yaml:
+        features:
+          country_encoding: frequency
+          country_top_n: 20
+        prepare.adr_cap: 1000.0
+        risk:
+          reminder_threshold: 0.3
+          deposit_threshold: 0.6
+        train:
+          model: lightgbm
+          data_version: v2
+          random_state: 42
+          logistic_regression:
+            C: 1.0
+            max_iter: 500
+          random_forest:
+            n_estimators: 120
+            max_depth: 14
+            min_samples_leaf: 5
+          lightgbm:
+            n_estimators: 200
+            learning_rate: 0.05
+            num_leaves: 31
+            min_child_samples: 40
+            subsample: 0.8
+            colsample_bytree: 0.8
+    outs:
+    - path: metrics/train.json
+      hash: md5
+      md5: e8ead7383775e86610411c8d26abda9b
+      size: 73
+    - path: models/champion
+      hash: md5
+      md5: ce8ba77cd0591001ef3279687f0976ef.dir
+      size: 782825
+      nfiles: 19
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+    - path: data/raw/holdout_summer2017.csv
+      hash: md5
+      md5: 02e614307f8a0d8a913761afadacee4d
+      size: 2235811
+    - path: models/champion
+      hash: md5
+      md5: ce8ba77cd0591001ef3279687f0976ef.dir
+      size: 782825
+      nfiles: 19
+    - path: src/evaluate.py
+      hash: md5
+      md5: f8f766ae9a71741f6131bd06b61544e9
+      size: 748
+    - path: src/modeling.py
+      hash: md5
+      md5: b000a098341fbee063bb49d40821cb73
+      size: 13542
+    - path: src/prepare.py
+      hash: md5
+      md5: 4b08bae806d613d1ee00a36d3ce19c07
+      size: 3100
+    params:
+      params.yaml:
+        prepare.adr_cap: 1000.0
+        risk:
+          reminder_threshold: 0.3
+          deposit_threshold: 0.6
+    outs:
+    - path: metrics/eval.json
+      hash: md5
+      md5: 9c1f4dc36b5794c2c60ee44ae1190d88
+      size: 188

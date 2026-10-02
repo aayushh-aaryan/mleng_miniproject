@@ -1,0 +1,60 @@
+stages:
+  prepare:
+    cmd: python -m src.prepare
+    deps:
+      - src/prepare.py
+      - src/schema.py
+      - src/paths.py
+      - data/raw/bookings.csv
+    params:
+      - prepare
+    outs:
+      - data/prepared/bookings.csv
+  featurize:
+    cmd: python -m src.features
+    deps:
+      - src/features.py
+      - src/prepare.py
+      - src/schema.py
+      - data/prepared/bookings.csv
+    params:
+      - features
+      - prepare.adr_cap
+    outs:
+      - data/featured/bookings.csv
+  train:
+    cmd: python -m src.train
+    deps:
+      - src/train.py
+      - src/modeling.py
+      - src/features.py
+      - src/leakage.py
+      - src/metrics.py
+      - src/prepare.py
+      - data/prepared/bookings.csv
+      - data/featured/bookings.csv
+      - data/raw/holdout_summer2017.csv
+    params:
+      - train
+      - features
+      - risk
+      - prepare.adr_cap
+    outs:
+      - models/champion
+    metrics:
+      - metrics/train.json:
+          cache: false
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+      - src/evaluate.py
+      - src/modeling.py
+      - src/prepare.py
+      - models/champion
+      - data/raw/holdout_summer2017.csv
+    params:
+      - risk
+      - prepare.adr_cap
+    metrics:
+      - metrics/eval.json:
+          cache: false
